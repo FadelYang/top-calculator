@@ -14,12 +14,13 @@
 #display {
     width: 100%;
     border: 5px solid black;
-    height: 100px;
+    min-height: 100px;
     text-align: end;
 }
 
 #display p {
     margin-right: 5px;
+    display: flex;
 }
 
 .calculatorNumber {

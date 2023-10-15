@@ -20,7 +20,7 @@
 
 #display p {
     margin-right: 5px;
-    display: flex;
+    display: flex-end;
 }
 
 .calculatorNumber {

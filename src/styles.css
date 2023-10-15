@@ -1,0 +1,50 @@
+.calculatorDiv {
+    margin: 0 auto;
+    border: 5px solid black;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 5px;
+    width: 280px;
+}
+
+#equalIcon {
+    flex-grow: 5;
+}
+
+#display {
+    width: 100%;
+    border: 5px solid black;
+    height: 100px;
+    text-align: end;
+}
+
+#display p {
+    margin-right: 5px;
+}
+
+.calculatorNumber {
+    flex: 1 0 0;
+    text-align: center;
+    padding: 25px;
+    width: 15px;
+    height: 15px;
+    border: 2px solid black;
+    background-color: lightgray;
+}
+
+#clearIcon {
+    background-color: palevioletred;
+}
+
+#deleteIcon {
+    background-color: skyblue;
+}
+
+#equalIcon {
+    background-color: grey;
+}
+
+.calculatorNumber:hover {
+    filter: brightness(0.85);
+    cursor: pointer;
+}

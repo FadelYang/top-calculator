@@ -2,7 +2,8 @@ const calculatorNumber = document.querySelectorAll(".calculatorNumber");
 const operatorNumher = document.querySelectorAll(".calculatorNumber.operatorNumber");
 const operator = ['-', '+', '/', '*'];
 const operateIcon = document.querySelector("#equalIcon");
-let calculatorDisplay = document.querySelector('#calculateDisplay');
+const calculatorDisplay = document.querySelector('#calculateDisplay');
+const resultDisplay = document.querySelector('#resultDisplay');
 let choosenValue = ''
 
 calculatorNumber.forEach(element => {
@@ -24,6 +25,7 @@ function clearDisplay(element) {
 function clearDisplayFunction() {
     choosenValue = ""
     calculatorDisplay.textContent = "";
+    resultDisplay.textContent = "";
 }
 
 function chooseValue(element) {
@@ -118,12 +120,11 @@ function operate(element) {
 
         let result = calculateBODMAS(expression);
 
-        if (result == "number") {
-            console.log(result);
-        } else {
-            console.log("Something error");
-        }
-
-        clearDisplayFunction();
+        updateResultDisplay(result)
     })
+}
+
+function updateResultDisplay(value) {
+    calculatorDisplay.textContent = value;
+    resultDisplay.textContent = value;
 }

@@ -1,6 +1,7 @@
 const calculatorNumber = document.querySelectorAll(".calculatorNumber");
 const operatorNumher = document.querySelectorAll(".calculatorNumber.operatorNumber");
-const operator = ['-', '+', '/', 'x'];
+const operator = ['-', '+', '/', '*'];
+const operateIcon = document.querySelector("#equalIcon");
 let calculatorDisplay = document.querySelector('#calculateDisplay');
 let choosenValue = ''
 
@@ -9,17 +10,20 @@ calculatorNumber.forEach(element => {
         clearDisplay(element);
     } else if (element.textContent == "DEL") {
         deleteChoosenValue(element);
+    } else if (element.textContent == "=") {
+        operate(element);
     } else {
         chooseValue(element);
     }
 });
 
 function clearDisplay(element) {
-    element.addEventListener('click', () => {
-        choosenValue = ""
-        calculatorDisplay.textContent = "";
-        console.log("Display clean");
-    })
+    element.addEventListener('click', clearDisplayFunction)
+}
+
+function clearDisplayFunction() {
+    choosenValue = ""
+    calculatorDisplay.textContent = "";
 }
 
 function chooseValue(element) {
@@ -43,3 +47,83 @@ function deleteChoosenValue(element) {
     })
 }
 
+// impelemnt stack to calculate with BODMAS
+function calculateBODMAS(expression) {
+    const operators = {
+        '+': 1,
+        '-': 1,
+        '*': 2,
+        '/': 2,
+    };
+
+    function applyOperator(operatorsStack, valuesStack) {
+        const operator = operatorsStack.pop();
+        const right = valuesStack.pop();
+        const left = valuesStack.pop();
+        switch (operator) {
+            case '+':
+                valuesStack.push(left + right);
+                break;
+            case '-':
+                valuesStack.push(left - right);
+                break;
+            case '*':
+                valuesStack.push(left * right);
+                break;
+            case '/':
+                valuesStack.push(left / right);
+                break;
+        }
+    }
+
+    const tokens = expression.map(token => {
+        if (!isNaN(token)) {
+            return parseFloat(token); // Use parseFloat to handle floating-point numbers
+        }
+        return token;
+    });
+
+    const valuesStack = [];
+    const operatorsStack = [];
+
+    for (let i = 0; i < tokens.length; i++) {
+        const token = tokens[i];
+        if (typeof token === 'number') {
+            valuesStack.push(token);
+        } else if (token in operators) {
+            while (
+                operatorsStack.length > 0 &&
+                operatorsStack[operatorsStack.length - 1] in operators &&
+                operators[operatorsStack[operatorsStack.length - 1]] >= operators[token]
+            ) {
+                applyOperator(operatorsStack, valuesStack);
+            }
+            operatorsStack.push(token);
+        }
+    }
+
+    while (operatorsStack.length > 0) {
+        applyOperator(operatorsStack, valuesStack);
+    }
+
+    return valuesStack[0];
+}
+
+function operate(element) {
+    element.addEventListener('click', () => {
+        let calculatorDisplayValue = calculatorDisplay.textContent
+        const expression = calculatorDisplayValue.split(' ');
+
+        console.log(expression);
+
+        let result = calculateBODMAS(expression);
+
+        if (result == "number") {
+            console.log(result);
+        } else {
+            console.log("Something error");
+        }
+
+        clearDisplayFunction();
+    })
+}
